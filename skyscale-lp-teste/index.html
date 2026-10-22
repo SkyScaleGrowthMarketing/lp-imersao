@@ -1,0 +1,471 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Imersão ao vivo e gratuita — SkyScale</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+body{margin:0}
+.root{font-family:'Sora',system-ui,sans-serif;color:#fff;background:#07000F;-webkit-font-smoothing:antialiased;min-height:100%}
+.root *{box-sizing:border-box}
+.lp{container:lp / inline-size;position:relative;overflow-x:clip}
+.lp h1,.lp h2,.lp h3,.lp p{margin:0}
+.of{font-family:'Outfit',sans-serif}
+
+/* tag fixa */
+.tag{position:sticky;top:0;z-index:40;background:linear-gradient(90deg,#4F0A8E 0%,#7A0C8C 55%,#B8007E 100%);box-shadow:0 6px 20px -8px rgba(0,0,0,.6);padding:8px 16px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:11px;line-height:1.3;letter-spacing:.05em;text-transform:uppercase}
+
+/* hero */
+.hero{background:radial-gradient(circle at 20% 0%,rgba(79,10,142,.5) 0%,rgba(7,0,15,0) 55%),#07000F}
+.hero-in{max-width:1120px;margin:0 auto}
+.ph{position:relative;height:208px;overflow:hidden;background:#07000F}
+.ph img.pic{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+.ph .fade{position:absolute;left:0;right:0;bottom:0;height:70%;background:linear-gradient(180deg,rgba(7,0,15,0) 0%,#07000F 96%)}
+.ph .topfade{position:absolute;left:0;right:0;top:0;height:60px;background:linear-gradient(180deg,rgba(7,0,15,.75),rgba(7,0,15,0))}
+.ph .logo{position:absolute;top:10px;left:50%;transform:translateX(-50%);height:30px;width:auto;display:block}
+.ph .pillw{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:rgba(255,0,116,.16);border:1px solid rgba(255,0,116,.55);font-size:11px;font-weight:700;letter-spacing:.12em;color:#FF7DB5;white-space:nowrap}
+.pill i{width:6px;height:6px;border-radius:50%;background:#FF0074;display:block}
+.cp{padding:0 20px 28px}
+.dk{display:none}
+.hero h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:25px;line-height:1.14;letter-spacing:-.01em;color:#fff}
+.hero h1 em,.h2 em{font-style:normal;color:#FF2E8A}
+.hsub{font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;line-height:1.35;color:rgba(255,255,255,.92);margin-top:10px!important}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:14px 18px;border:0;border-radius:14px;background:#FF0074;color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;text-transform:uppercase;cursor:pointer;box-shadow:0 12px 28px -10px rgba(255,0,116,.7)}
+.btn svg{flex:none}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.chip{display:flex;align-items:center;gap:6px;padding:8px 9px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);font-size:12px;font-weight:600;line-height:1.2;white-space:nowrap;color:rgba(255,255,255,.94)}
+.chip svg{flex:none}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:#FF0074;flex:none}
+.hp{font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.76);margin-top:16px!important}
+
+/* secoes */
+.sec{padding:48px 20px}
+.wrap{max-width:1120px;margin:0 auto}
+.eb{display:block;font-size:11.5px;font-weight:700;letter-spacing:.16em;color:#B8005A;text-transform:uppercase}
+.dark .eb{color:#FF5FA2}
+.h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:26px;line-height:1.15;letter-spacing:-.015em;margin-top:10px!important}
+.lead{font-size:15.5px;line-height:1.55;color:#5B5470;margin-top:12px!important}
+.dark .lead{color:rgba(255,255,255,.8)}
+.light{background:#fff;color:#120620}
+.gray{background:#F5F5F7;color:#120620}
+.dark{background:radial-gradient(circle at 15% 0%,rgba(79,10,142,.4) 0%,rgba(7,0,15,0) 55%),#07000F;color:#fff}
+.center{text-align:center}
+.cta-w{margin-top:28px;display:flex;flex-direction:column;align-items:center}
+.cta-w .btn{max-width:440px}
+.note{margin-top:10px!important;font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#6E6782;text-align:center}
+
+/* descobrir */
+.dl{margin-top:24px}
+.di{padding:24px 0;border-top:1px solid #ECE8F2}
+.di:last-child{border-bottom:1px solid #ECE8F2}
+.num{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;letter-spacing:.16em;color:#B8005A}
+.h3{font-family:'Outfit',sans-serif;font-weight:700;font-size:19px;line-height:1.22;letter-spacing:-.005em;margin-top:8px!important}
+.di p.tx{font-size:14.5px;line-height:1.55;color:#5B5470;margin-top:8px!important}
+.viz{margin-top:16px;padding:16px;border-radius:16px;background:#F7F5FA;border:1px solid #ECE8F2}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:#5B5470}
+.badge{padding:3px 8px;border-radius:999px;background:#FFE3EF;color:#B8005A;font-weight:700;font-size:11px}
+.flow{display:flex;flex-direction:column;align-items:center;gap:6px}
+.fb{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:12px;font-size:14px;font-weight:600;width:100%}
+.fb small{font-size:12px;font-weight:500}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:12px;background:#fff;border:1px solid #E2DCEA;font-size:14px;font-weight:600}
+.st b{font-size:11px;letter-spacing:.14em;color:#6E6782}
+
+/* carrossel */
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:20px -20px 0;padding:0 20px 6px;scroll-padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.car::-webkit-scrollbar{display:none}
+.car>*{flex:0 0 84%;scroll-snap-align:start;min-width:0}
+.car.p>*{flex-basis:56%}
+.hint{margin-top:8px!important;text-align:center;font-size:11.5px;color:#8A8399;letter-spacing:.04em}
+
+/* metodo */
+.pil{display:flex;flex-direction:column;padding:20px;border-radius:18px;background:#fff;border:1px solid #E8E4EE}
+.pil .n{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:#E6006A;color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:16px}
+.pil h3{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;line-height:1.2;margin-top:14px}
+.pil p{font-size:14.5px;line-height:1.55;color:#5B5470;margin-top:8px}
+
+/* origem */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.sc{padding:20px 10px 16px;border-radius:16px;background:#0F0120;border:1px solid #241338;text-align:center}
+.sc .v{font-family:'Outfit',sans-serif;font-weight:800;font-size:30px;line-height:1;color:#FF2E8A}
+.sc .l{margin-top:10px;font-size:11px;font-weight:500;letter-spacing:.05em;line-height:1.3;color:rgba(255,255,255,.75)}
+.sc .t{display:inline-block;margin-top:12px;padding:4px 8px;border-radius:999px;border:1px solid #5B2C98;font-size:9.5px;font-weight:600;letter-spacing:.08em;color:#B58AF0}
+.quote{margin-top:24px!important;padding-left:14px;border-left:3px solid #FF0074;font-family:'Outfit',sans-serif;font-weight:600;font-size:17px;line-height:1.45;color:#fff}
+
+/* casos */
+.vc{display:flex;flex-direction:column;text-decoration:none;color:#120620;background:#fff;border:1px solid #E8E4EE;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px -24px rgba(18,6,32,.4)}
+.vt{position:relative;aspect-ratio:16/10;background:#120620}
+.vt img{display:block;width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:#FF0074;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -6px rgba(0,0,0,.5)}
+.vb{padding:16px 16px 18px}
+.vb .nm{font-size:13px;font-weight:700}
+.vb .ti{margin-top:6px;font-family:'Outfit',sans-serif;font-weight:800;font-size:18px;line-height:1.22;color:#E6006A}
+.rr{display:block;margin-top:14px;padding:8px 10px;border-radius:10px;background:#F2EEF7;text-align:center;font-size:11px;font-weight:700;letter-spacing:.14em;color:#4F0A8E}
+.sub3{font-family:'Outfit',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;margin-top:36px!important}
+.mc{padding:18px;border-radius:16px;background:#fff;border:1px solid #E8E4EE}
+.mc .tg{display:inline-flex;padding:4px 10px;border-radius:999px;background:#F2EEF7;font-size:11.5px;font-weight:600;color:#4F0A8E}
+.mc .big{margin-top:12px;font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;line-height:1.12}
+.mc .sm{margin-top:4px;font-size:13.5px;color:#5B5470}
+.mc .ft{margin-top:12px;padding-top:10px;border-top:1px solid #ECE8F2;font-size:12.5px;color:#5B5470}
+.mc .ft b{color:#B8005A}
+.pr{display:flex;flex-direction:column;background:#fff;border:1px solid #E8E4EE;border-radius:16px;overflow:hidden}
+.pr .im{aspect-ratio:9/16;background:#120620}
+.pr img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.pr span{padding:10px 12px 12px;font-size:10.5px;font-weight:700;letter-spacing:.12em;color:#4F0A8E}
+
+/* para quem */
+.two{display:flex;flex-direction:column;gap:16px;margin-top:24px}
+.box{padding:20px 18px;border-radius:20px}
+.box.yes{background:#fff;border:1px solid #FFD3E5}
+.box.no{background:#fff;border:1px solid #E6E2EC}
+.box .bt{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px}
+.box.yes .bt{color:#B8005A}
+.box.no .bt{color:#3A3350}
+.its{margin-top:16px;display:flex;flex-direction:column;gap:16px}
+.it{display:flex;gap:12px}
+.ic{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;margin-top:1px}
+.yes .ic{background:#E6006A}
+.no .ic{background:#5B5470}
+.it b{display:block;font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;line-height:1.3}
+.it span{display:block;margin-top:3px;font-size:13.5px;line-height:1.5;color:#5B5470}
+.closing{margin-top:24px!important;font-family:'Outfit',sans-serif;font-weight:600;font-size:17px;line-height:1.45;text-align:center}
+
+/* apresentador */
+.pres{display:flex;flex-direction:column;gap:24px}
+.pph{width:100%;max-width:320px;margin:0 auto;aspect-ratio:782/896;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 60px -28px rgba(79,10,142,.8)}
+.pph img{display:block;width:100%;height:100%;object-fit:cover}
+.pname{font-family:'Outfit',sans-serif;font-weight:800;font-size:32px;line-height:1.05;letter-spacing:-.02em;margin-top:8px!important}
+.prole{font-family:'Outfit',sans-serif;font-weight:600;font-size:17px;color:#FF5FA2;margin-top:6px!important}
+.bio{font-size:15px;line-height:1.6;color:rgba(255,255,255,.8);margin-top:14px!important}
+.bio b{color:#fff;font-weight:600}
+.final{margin-top:48px;border-radius:22px;padding:28px 18px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,0,116,.26) 0%,rgba(255,0,116,0) 70%),linear-gradient(180deg,#1C0734 0%,#0D0417 100%);border:1px solid rgba(255,0,116,.35)}
+.final .chips{margin-top:0}
+.final h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:25px;line-height:1.15;letter-spacing:-.015em;margin-top:22px!important}
+.final h2 em{font-style:normal;color:#FF2E8A}
+.final .btn{margin-top:22px}
+.final .fn{margin-top:14px!important;font-size:13px;line-height:1.5;color:rgba(255,255,255,.72)}
+
+/* faq */
+.faqb{margin-top:20px;border-top:1px solid #ECE8F2}
+.fq{border-bottom:1px solid #ECE8F2}
+.fq button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px;padding:14px 0;background:transparent;border:0;color:#120620;text-align:left;font-family:'Outfit',sans-serif;font-weight:700;font-size:16.5px;line-height:1.3;cursor:pointer}
+.fq .sg{flex:none;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#F2EEF7;color:#B8005A;font-size:18px;font-weight:600}
+.fq p{padding:0 40px 18px 0;font-size:14.5px;line-height:1.6;color:#5B5470}
+.foot{background:#07000F;padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;font-size:12.5px;color:rgba(255,255,255,.55)}
+
+/* modal */
+.ov{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(7,0,15,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.dlg{position:relative;width:100%;max-width:420px;padding:28px 20px 20px;border-radius:20px;background:#fff;color:#120620;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);font-family:'Sora',sans-serif}
+.x{position:absolute;top:8px;right:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:0;border-radius:12px;background:transparent;color:#5B5470;cursor:pointer}
+.fl{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#3A3350}
+.fl input{height:52px;padding:0 14px;border-radius:12px;border:1px solid #D9D2E4;background:#FAF9FC;color:#120620;font-family:'Sora',sans-serif;font-size:16px}
+
+/* ====== DESKTOP ====== */
+@container lp (min-width: 760px){
+  .tag{font-size:13px;padding:11px 40px;letter-spacing:.06em}
+  .hero{padding:0 40px}
+  .hero-in{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:64px;padding:28px 0 88px}
+  .ph{order:2;height:auto;aspect-ratio:826/988;max-width:440px;width:100%;margin-left:auto;border-radius:28px;border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 80px -30px rgba(79,10,142,.75)}
+  .ph .fade,.ph .topfade,.ph .logo,.ph .pillw{display:none}
+  .cp{padding:0}
+  .dk{display:block}
+  .dk img{height:44px;width:auto;display:block}
+  .dk .pill{margin-top:36px;font-size:12px;padding:7px 14px}
+  .hero h1{font-size:42px;max-width:640px;margin-top:20px}
+  .hsub{font-size:21px;max-width:600px}
+  .hp{font-size:16px;max-width:560px}
+  .btn{font-size:18px;min-height:64px;max-width:440px}
+  .chips{grid-template-columns:repeat(4,auto);justify-content:start;margin-top:20px}
+  .chip{font-size:13px;padding:8px 12px}
+  .hero .btn{margin-top:26px}
+  .hero .chips{margin-top:18px}
+  .sec{padding:104px 40px}
+  .h2{font-size:44px;line-height:1.08;max-width:820px}
+  .lead{font-size:18px;max-width:640px}
+  .eb{font-size:12px}
+  .di{display:grid;grid-template-columns:1fr 420px;gap:56px;align-items:center;padding:40px 0}
+  .h3{font-size:28px}
+  .di p.tx{font-size:16px;max-width:520px}
+  .viz{margin-top:0}
+  .car{display:grid;overflow:visible;margin:32px 0 0;padding:0}
+  .car.c3{grid-template-columns:repeat(3,1fr)}
+  .car.c2{grid-template-columns:repeat(2,1fr);gap:24px}
+  .car.c4{grid-template-columns:repeat(4,1fr)}
+  .hint{display:none}
+  .stats{grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+  .sc .v{font-size:42px}
+  .quote{max-width:720px;font-size:20px}
+  .vb .ti{font-size:22px}
+  .two{flex-direction:row;align-items:flex-start;gap:24px;margin-top:40px}
+  .two .box{flex:1;padding:32px}
+  .sub3{font-size:26px;margin-top:56px!important}
+  .pres{flex-direction:row;align-items:center;gap:72px}
+  .pph{flex:0 0 400px;max-width:400px;margin:0}
+  .pname{font-size:52px}
+  .bio{font-size:16.5px;max-width:560px}
+  .final{padding:64px 56px;margin-top:88px}
+  .final h2{font-size:44px;max-width:820px;margin-left:auto;margin-right:auto}
+  .final .chips{justify-content:center}
+  .final .btn{max-width:440px;margin-left:auto;margin-right:auto}
+  .closing{font-size:22px;max-width:820px;margin-left:auto;margin-right:auto}
+  .faqwrap{max-width:760px}
+}
+.ov[hidden],[hidden]{display:none!important}</style></head><body><div class="root">
+<div class="lp">
+
+<!-- TAG FIXA -->
+<div class="tag">Exclusivo para agências de viagens que vendem pacotes internacionais e gestores de milhas</div>
+
+<!-- BLOCO 1 — HERO (escuro) -->
+<header class="hero">
+  <div class="hero-in">
+    <div class="ph">
+      <img class="pic" src="img/hero_exec.webp" alt="Otávio Barros, CEO da SkyScale, sentado na classe executiva de um avião">
+      <div class="topfade"></div>
+      <div class="fade"></div>
+      <img class="logo" src="img/logo.png" alt="SkyScale">
+      <div class="pillw"><span class="pill"><i></i>IMERSÃO AO VIVO E GRATUITA</span></div>
+    </div>
+    <div class="cp">
+      <div class="dk"><img src="img/logo.png" alt="SkyScale"><span class="pill"><i></i>IMERSÃO AO VIVO E GRATUITA</span></div>
+      <h1>Gere novas <em>oportunidades qualificadas</em> todas as semanas sem depender de indicação.</h1>
+      <p class="hsub">E sem encher seu comercial de curiosos que nunca vão comprar.</p>
+      <button type="button" class="btn" style="margin-top:16px" onclick="openForm()">Quero garantir minha vaga<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+      <div class="chips">
+        <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5FA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>Quarta-feira, 28/10</span>
+        <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5FA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>Às 19h30</span>
+        <span class="chip"><span class="dot"></span>Online e ao vivo</span>
+        <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5FA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="M13 5v2M13 17v2M13 11v2"></path></svg>Evento gratuito</span>
+      </div>
+      <p class="hp">Descubra a metodologia que a SkyScale utiliza para atrair, qualificar e transformar potenciais clientes em vendas com mais previsibilidade.</p>
+    </div>
+  </div>
+</header>
+
+<!-- BLOCO 2 — O QUE VOCÊ VAI DESCOBRIR (branco) -->
+<section class="sec light">
+  <div class="wrap">
+    <span class="eb">Na imersão ao vivo</span>
+    <h2 class="h2">O que você vai descobrir nessa imersão</h2>
+    <p class="lead">Três respostas para quem quer parar de esperar o próximo cliente chegar por indicação.</p>
+    <div class="dl">
+      <div class="di">
+        <div>
+          <span class="num">01</span>
+          <h3 class="h3">Por que depender de indicação limita o crescimento da sua operação</h3>
+          <p class="tx">Indicação é um excelente canal, mas vira problema quando é a única forma de colocar novos clientes no comercial.</p>
+        </div>
+        <div class="viz">
+          <div class="row2"><span style="font-weight:600">Novos clientes por indicação</span><span class="badge">Imprevisível</span></div>
+          <svg viewBox="0 0 300 100" width="100%" height="100" preserveAspectRatio="none" aria-hidden="true" style="display:block;margin-top:10px">
+            <defs><linearGradient id="wv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF0074" stop-opacity="0.22"></stop><stop offset="1" stop-color="#FF0074" stop-opacity="0"></stop></linearGradient></defs>
+            <path d="M0 50 H300" stroke="#D9D2E4" stroke-dasharray="4 6"></path>
+            <path d="M0 58 C25 14 50 12 72 44 S108 92 132 82 S168 10 192 22 S228 90 252 84 S288 34 300 38 V100 H0 Z" fill="url(#wv)"></path>
+            <path d="M0 58 C25 14 50 12 72 44 S108 92 132 82 S168 10 192 22 S228 90 252 84 S288 34 300 38" fill="none" stroke="#FF0074" stroke-width="2.5" stroke-linecap="round"></path>
+          </svg>
+          <div class="row2" style="margin-top:6px;font-size:11px;color:#6E6782"><span>Mês bom</span><span>Mês ruim</span><span>Mês bom</span><span>Mês ruim</span></div>
+        </div>
+      </div>
+      <div class="di">
+        <div>
+          <span class="num">02</span>
+          <h3 class="h3">Como atrair compradores sem encher seu comercial de curiosos</h3>
+          <p class="tx">Criativos e uma estrutura de qualificação separam quem tem real potencial de compra de quem só pergunta preço.</p>
+        </div>
+        <div class="viz">
+          <div class="flow">
+            <div class="fb" style="background:#fff;border:1px solid #E2DCEA"><span>Anúncio</span><small style="color:#6E6782">todo mundo vê</small></div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A39BB3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+            <div class="fb" style="width:80%;background:#EFE6FA;border:1px solid #CDB2F0;color:#4F0A8E"><span>Filtro</span><small>curiosos ficam</small></div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A39BB3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+            <div class="fb" style="width:60%;justify-content:center;background:#E6006A;color:#fff;font-weight:700">Qualificado</div>
+          </div>
+        </div>
+      </div>
+      <div class="di">
+        <div>
+          <span class="num">03</span>
+          <h3 class="h3">Como conectar aquisição, qualificação e vendas em uma única estrutura</h3>
+          <p class="tx">Organize o processo do primeiro contato até o comercial para gerar novas oportunidades com previsibilidade.</p>
+        </div>
+        <div class="viz">
+          <div class="steps">
+            <div class="st"><b>1</b>Aquisição</div>
+            <div class="st"><b>2</b>Qualificação</div>
+            <div class="st" style="background:#EFE6FA;border-color:#CDB2F0;color:#4F0A8E"><b style="color:#4F0A8E">3</b>Comercial</div>
+            <div class="st" style="background:#E6006A;border-color:#E6006A;color:#fff"><b style="color:#fff">4</b>Venda</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cta-w">
+      <button type="button" class="btn" onclick="openForm()">Quero garantir minha vaga<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+      <p class="note">QUARTA-FEIRA, 28/10 • 19H30 • GRATUITO</p>
+    </div>
+  </div>
+</section>
+
+<!-- BLOCO 3 — O MÉTODO (cinza) -->
+<section class="sec gray">
+  <div class="wrap">
+    <span class="eb">O método</span>
+    <h2 class="h2">Os 3 pilares para ter oportunidades qualificadas toda semana</h2>
+    <p class="lead">É o que vamos abrir, na prática, durante a imersão.</p>
+    <div class="car c3">
+      <div class="pil"><span class="n">1</span><h3>Como ter criativos lucrativos</h3><p>Criativos que atraem quem realmente pode comprar, e não só quem curte ou pede preço.</p></div>
+      <div class="pil"><span class="n">2</span><h3>Como filtrar curiosos</h3><p>Uma qualificação antes do comercial, para o seu time falar só com quem tem potencial de fechar.</p></div>
+      <div class="pil"><span class="n">3</span><h3>Como criar uma oferta irresistível</h3><p>Uma oferta que faz o comprador certo levantar a mão e avançar para a conversa comercial.</p></div>
+    </div>
+    <p class="hint">Deslize para ver os próximos →</p>
+  </div>
+</section>
+
+<!-- BLOCO 4 — ORIGEM (escuro) -->
+<section class="sec dark">
+  <div class="wrap">
+    <span class="eb">De onde vem essa metodologia</span>
+    <h2 class="h2">Essa metodologia surgiu dentro da nossa <em>própria operação</em>.</h2>
+    <p class="lead" style="font-family:'Outfit',sans-serif;font-weight:500;font-size:18px;line-height:1.4;color:rgba(255,255,255,.9)">Vou te mostrar como transformamos cerca de R$74 mil investidos em aquisição em mais de R$1,5 milhão faturados.</p>
+    <div class="stats">
+      <div class="sc"><div class="v">+100</div><div class="l">CONTRATOS FECHADOS</div><span class="t">OPERAÇÃO PRÓPRIA</span></div>
+      <div class="sc"><div class="v">R$1,5M+</div><div class="l">FATURADOS</div><span class="t">OPERAÇÃO PRÓPRIA</span></div>
+      <div class="sc"><div class="v">~R$74K</div><div class="l">INVESTIDOS EM AQUISIÇÃO</div><span class="t">OPERAÇÃO PRÓPRIA</span></div>
+      <div class="sc"><div class="v">~20x</div><div class="l">ROAS</div><span class="t">OPERAÇÃO PRÓPRIA</span></div>
+    </div>
+    <p class="quote">A Sky Scale nasce dessa experiência — não de um curso de marketing genérico adaptado para o nicho.</p>
+  </div>
+</section>
+
+<!-- BLOCO 5 — CASOS (branco) -->
+<section class="sec light">
+  <div class="wrap">
+    <span class="eb">Casos reais</span>
+    <h2 class="h2">Conheça casos de pessoas que executaram essa metodologia</h2>
+    <div class="car c2">
+      <a class="vc" href="https://www.youtube.com/watch?v=CZVwMMfrO_g" target="_blank" rel="noopener" aria-label="Assistir depoimento da LM Viagens">
+        <div class="vt"><img src="img/vsd_1.webp" alt=""><span class="play"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg></span></div>
+        <div class="vb"><div class="nm">LM Viagens</div><div class="ti">Começou do extremo zero e já faturou mais de R$50.000 com essa metodologia</div><span class="rr">RESULTADO REAL</span></div>
+      </a>
+      <a class="vc" href="https://www.youtube.com/watch?v=yDP2VpqftNY" target="_blank" rel="noopener" aria-label="Assistir depoimento da Desbravando Mundo">
+        <div class="vt"><img src="img/vsd_2.webp" alt=""><span class="play"><svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg></span></div>
+        <div class="vb"><div class="nm">Desbravando Mundo</div><div class="ti">Mais de R$250.000 faturados em menos de 6 meses com a nossa implementação</div><span class="rr">RESULTADO REAL</span></div>
+      </a>
+    </div>
+    <p class="hint">Deslize para ver o próximo →</p>
+
+    <h3 class="sub3">Mais casos</h3>
+    <div class="car c4" style="margin-top:14px">
+      <div class="mc" style="background:#F7F5FA"><span class="tg">Intercâmbio para Malta</span><div class="big">4 novos contratos</div><div class="sm">em um único mês</div><div class="ft"><b>Menos de R$1.500</b> investidos em anúncios</div></div>
+      <div class="mc" style="background:#F7F5FA"><span class="tg">Lua de mel na Grécia</span><div class="big">2 pacotes fechados</div><div class="sm">no primeiro mês de campanha</div><div class="ft"><b>R$80 mil por pessoa</b></div></div>
+      <div class="mc" style="background:#F7F5FA"><span class="tg">Gestão de milhas</span><div class="big">De 1 para 9 contratos/mês</div><div class="sm">com previsibilidade</div><div class="ft"><b>De R$8 mil para R$72 mil/mês</b></div></div>
+      <div class="mc" style="background:#F7F5FA"><span class="tg">Gestão de milhas</span><div class="big">De R$30 mil/mês para R$150 mil/mês</div><div class="sm">com previsibilidade</div></div>
+    </div>
+
+    <h3 class="sub3">Prints reais de clientes</h3>
+    <div class="car c4 p" style="margin-top:14px">
+      <div class="pr"><div class="im"><img src="img/print_18.webp" alt="Print de WhatsApp com resultado: 12 agendamentos e R$15.940 em vendas"></div><span>RESULTADO REAL</span></div>
+      <div class="pr"><div class="im"><img src="img/print_17.webp" alt="Print de WhatsApp com pagamentos aprovados de clientes"></div><span>RESULTADO REAL</span></div>
+      <div class="pr"><div class="im"><img src="img/print_19.webp" alt="Print de WhatsApp com venda fechada após reunião"></div><span>RESULTADO REAL</span></div>
+      <div class="pr"><div class="im"><img src="img/print_24.webp" alt="Print de WhatsApp: leads chegaram, reunião e primeira venda"></div><span>RESULTADO REAL</span></div>
+    </div>
+    <p class="hint">Deslize para ver mais →</p>
+
+    <div class="cta-w">
+      <button type="button" class="btn" onclick="openForm()">Quero garantir minha vaga<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- BLOCO 6 — PARA QUEM É / NÃO É (cinza) -->
+<section class="sec gray">
+  <div class="wrap">
+    <span class="eb">Para quem é e para quem não é</span>
+    <h2 class="h2">Essa imersão é para você se...</h2>
+    <div class="two">
+      <div class="box yes">
+        <div class="bt">É para você se:</div>
+        <div class="its">
+          <div class="it"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div><b>Você tem uma agência de viagens que já vende pacotes internacionais</b><span>Como Disney, intercâmbio, expedições, viagens personalizadas, grupos ou experiências de alto padrão.</span></div></div>
+          <div class="it"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div><b>Você já trabalha com Gestão de Milhas</b><span>E consegue entregar o serviço para novos clientes, mas ainda não possui uma fonte previsível de aquisição.</span></div></div>
+          <div class="it"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div><b>Sua operação já consegue vender e entregar</b><span>O problema agora não é descobrir o que vender. É colocar novas oportunidades qualificadas dentro do comercial com mais frequência.</span></div></div>
+          <div class="it"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div><b>Você ainda depende muito de indicação</b><span>E quer construir um canal de aquisição que permita crescer com mais previsibilidade.</span></div></div>
+          <div class="it"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div><b>Você já tentou tráfego pago, mas recebeu muito curioso</b><span>Pessoas pedindo preço, cotação ou informação sem real potencial de compra.</span></div></div>
+          <div class="it"><span class="ic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><div><b>Você quer vender mais sem transformar seu comercial em um call center</b><span>Com menos conversas inúteis e mais foco nas oportunidades com real potencial de fechamento.</span></div></div>
+        </div>
+      </div>
+      <div class="box no">
+        <div class="bt">Essa imersão NÃO é para você se:</div>
+        <div class="its">
+          <div class="it"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></span><div><b>Você ainda está pensando em abrir uma agência de viagens.</b><span>Esse evento não foi criado para ensinar os primeiros passos para começar no turismo.</span></div></div>
+          <div class="it"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></span><div><b>Você ainda não sabe entregar Gestão de Milhas.</b><span>Não vamos ensinar cartão, pontos, emissões ou a parte técnica do serviço.</span></div></div>
+          <div class="it"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></span><div><b>Você vende principalmente pacotes nacionais genéricos e de baixo ticket.</b><span>A metodologia foi construída principalmente para operações com produtos e serviços que permitem uma venda mais consultiva.</span></div></div>
+          <div class="it"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></span><div><b>Você está procurando uma fórmula para conseguir clientes sem vender.</b><span>A SkyScale estrutura aquisição, qualificação e processo comercial. Ainda existe uma venda a ser feita.</span></div></div>
+          <div class="it"><span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></span><div><b>Você quer apenas aumentar seguidores ou engajamento.</b><span>O foco aqui é aquisição, oportunidades comerciais e contratos.</span></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="closing">Se você já possui uma operação capaz de entregar e agora precisa de uma forma mais previsível de encontrar novos clientes, essa imersão foi construída para você.</p>
+  </div>
+</section>
+
+<!-- BLOCO 7 — APRESENTADOR + CTA FINAL (escuro) -->
+<section class="sec dark">
+  <div class="wrap">
+    <div class="pres">
+      <div class="pph"><img src="img/presenter_full.webp" alt="Otávio Barros"></div>
+      <div>
+        <span class="eb">QUEM VAI APRESENTAR ESSA IMERSÃO</span>
+        <h2 class="pname">Otávio Barros</h2>
+        <p class="prole">CEO da SkyScale</p>
+        <p class="bio">Em 2021, Otávio ainda trabalhava como garçom em uma cidade do interior do Paraná. Aos 26 anos, teve sua realidade completamente transformada através do mercado do turismo.</p>
+        <p class="bio">Construiu sua própria operação de Gestão de Milhas, onde fechou <b>mais de 100 contratos</b> e faturou <b>cerca de R$1,5 milhão em aproximadamente 10 meses</b>, antes de levar a metodologia para outras empresas do setor.</p>
+        <p class="bio">Desde então, já viveu como nômade digital e trabalhou de países como Tailândia, Japão, Indonésia e Malta.</p>
+        <p class="bio">Hoje, está à frente da SkyScale, ajudando agências de viagens e gestores de milhas a crescer com mais previsibilidade.</p>
+      </div>
+    </div>
+
+    <div class="final">
+      <div class="chips">
+        <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5FA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>Quarta-feira, 28/10</span>
+        <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5FA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>Às 19h30</span>
+        <span class="chip"><span class="dot"></span>Online e ao vivo</span>
+        <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF5FA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="M13 5v2M13 17v2M13 11v2"></path></svg>Evento gratuito</span>
+      </div>
+      <h2>Se você quer parar de depender apenas de <em>indicação</em> para crescer, essa imersão é para você.</h2>
+      <button type="button" class="btn" onclick="openForm()">Quero garantir minha vaga<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+      <p class="fn">Vagas para agências de viagens que vendem pacotes internacionais e gestores de milhas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ (branco) -->
+<section class="sec light" style="padding-top:40px;padding-bottom:40px">
+  <div class="wrap faqwrap">
+    <h2 class="h2 center" style="font-size:24px;margin-top:0!important">Perguntas frequentes</h2>
+    <div class="faqb">
+      <div class="fq"><button type="button" onclick="tg(this)" aria-expanded="false"><span>A imersão é gratuita?</span><span class="sg">+</span></button><p hidden>Sim. A imersão é 100% gratuita.</p></div><div class="fq"><button type="button" onclick="tg(this)" aria-expanded="false"><span>Para quem é a imersão?</span><span class="sg">+</span></button><p hidden>Para agências de viagens que já vendem pacotes internacionais e gestores de milhas que querem estruturar aquisição e vendas com mais previsibilidade.</p></div><div class="fq"><button type="button" onclick="tg(this)" aria-expanded="false"><span>A imersão será ao vivo?</span><span class="sg">+</span></button><p hidden>Sim, online e ao vivo, na quarta-feira, 28/10, às 19h30.</p></div><div class="fq"><button type="button" onclick="tg(this)" aria-expanded="false"><span>Vai ficar gravada?</span><span class="sg">+</span></button><p hidden>[DEFINIREMOS A RESPOSTA]</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <img src="img/logo.png" alt="SkyScale" style="display:block;height:32px;width:auto">
+  <span>© 2026 SkyScale. Todos os direitos reservados.</span>
+</footer>
+
+</div>
+<div class="ov" id="ov" hidden><div class="dlg" role="dialog" aria-modal="true">
+<button type="button" class="x" onclick="closeForm()" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+<div id="f1"><span style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#B8005A">IMERSÃO AO VIVO E GRATUITA</span>
+<h2 style="margin:8px 0 0;font-family:'Outfit',sans-serif;font-weight:800;font-size:25px;line-height:1.1">Garanta sua vaga</h2>
+<p style="margin:8px 0 0;font-size:14px;color:#5B5470">Quarta-feira, 28/10 · 19h30 · Online e ao vivo</p>
+<form onsubmit="event.preventDefault();document.getElementById('f1').hidden=true;document.getElementById('f2').hidden=false" style="display:flex;flex-direction:column;gap:14px;margin-top:20px">
+<label class="fl">Nome<input type="text" name="nome" required placeholder="Seu nome"></label>
+<label class="fl">WhatsApp<input type="tel" name="whatsapp" required placeholder="(00) 00000-0000"></label>
+<label class="fl">E-mail<input type="email" name="email" required placeholder="seu@email.com"></label>
+<button type="submit" class="btn" style="margin-top:4px;box-shadow:none">Quero garantir minha vaga</button>
+<p style="margin:0;text-align:center;font-size:12px;line-height:1.5;color:#6E6782">Usaremos seus dados apenas para enviar o acesso à imersão.</p></form></div>
+<div id="f2" hidden style="text-align:center;padding:10px 0 6px"><h2 style="margin:16px 0 0;font-family:'Outfit',sans-serif;font-weight:800;font-size:25px">Vaga garantida!</h2>
+<p style="margin:10px 0 0;font-size:15px;line-height:1.6;color:#5B5470">[PRÓXIMO PASSO — ex.: entrar no grupo do WhatsApp para receber o link]</p>
+<button type="button" onclick="closeForm()" style="margin-top:20px;width:100%;min-height:52px;border-radius:14px;border:1px solid #D9D2E4;background:transparent;color:#120620;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;cursor:pointer">Fechar</button></div>
+</div></div>
+<script>
+function openForm(){document.getElementById('ov').hidden=false}
+function closeForm(){document.getElementById('ov').hidden=true;document.getElementById('f1').hidden=false;document.getElementById('f2').hidden=true}
+function tg(b){var p=b.nextElementSibling,o=p.hidden;document.querySelectorAll('.fq p').forEach(function(x){x.hidden=true});document.querySelectorAll('.fq button').forEach(function(x){x.setAttribute('aria-expanded','false');x.lastChild.textContent='+'});if(o){p.hidden=false;b.setAttribute('aria-expanded','true');b.lastChild.textContent='−'}}
+</script></div></body></html>
