@@ -1,0 +1,842 @@
+<title>O Vazamento Invisível</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Sora:wght@400;500;600;700&display=swap">
+<style>
+/* Conceito: um funil que vaza. Fundo roxo profundo, partículas lilás entram,
+   coral escapa, verde converte. Uma coluna no celular, duas no desktop. */
+:root{
+  --bg:#09030F; --bg2:#10051C; --ink:#F5EFFB; --mute:#ADA0C4; --line:rgba(255,255,255,.12);
+  --purple:#4F0A8E; --magenta:#FF0074; --lilac:#C9A7FF; --green:#3FD6A0; --coral:#FF6B5E;
+  --display:'Outfit',system-ui,sans-serif; --body:'Sora',system-ui,sans-serif;
+  --gut:max(20px,env(safe-area-inset-left,0px)); --gutr:max(20px,env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--display);text-wrap:balance}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--lilac);outline-offset:3px}
+.sec{padding-block:56px;padding-left:var(--gut);padding-right:var(--gutr);border-top:1px solid var(--line)}
+.sec.first{border-top:0;padding-top:20px;background:radial-gradient(120% 60% at 50% 0%,rgba(79,10,142,.55) 0%,rgba(9,3,15,0) 70%)}
+.wrap{max-width:1040px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lilac)}
+.h1{font-weight:800;font-size:27px;line-height:1.12;letter-spacing:-.015em;margin-top:12px}
+.h2{font-weight:800;font-size:26px;line-height:1.12;letter-spacing:-.012em;margin-top:10px}
+.lede{color:var(--mute);font-size:15px;margin-top:12px;max-width:52ch}
+.em{color:var(--coral)}
+.ok{color:var(--green)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:14px 20px;border:0;border-radius:14px;background:var(--magenta);color:#fff;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:transform .15s,filter .15s}
+.btn:active{transform:scale(.985)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:600}
+.btn.sm{min-height:48px;width:auto;padding:10px 18px;font-size:13px}
+canvas{display:block;width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--mute);margin-top:10px}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+
+/* hero */
+.hero-grid{display:grid;gap:20px}
+.hero-canvas{height:clamp(190px,30svh,250px)}
+.hero-ask{display:grid;gap:12px}
+.hero-ask p{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.25}
+
+/* comparação */
+.cmp{display:grid;gap:36px;margin-top:28px}
+.cmp-col{transition:opacity .3s}
+.cmp.focus-a .cmp-col.b,.cmp.focus-b .cmp-col.a{opacity:.32}
+.tab{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;padding:12px 0;background:none;border:0;border-bottom:1px solid var(--line);font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:.08em;text-align:left;cursor:pointer}
+.tab small{font-family:var(--body);font-weight:500;letter-spacing:0;font-size:11px;color:var(--mute)}
+.cmp-canvas{height:280px;margin-top:12px}
+.time{margin-top:6px}
+.time svg{width:100%;height:40px;display:block}
+.time span{font-size:11px;color:var(--mute)}
+.cmp-text{margin-top:10px;font-size:15px;max-width:42ch}
+.cmp-col.on .tab{border-bottom-color:var(--lilac)}
+
+/* diagnóstico */
+.diag{display:grid;gap:14px;margin:18px 0 0;max-width:620px}
+#diagnostico{padding-top:32px;padding-bottom:40px}
+#h-diag{font-size:22px;line-height:1.15}
+.prog{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.prog i{height:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.prog i.d{background:var(--lilac)}
+.prog i.c{background:var(--magenta)}
+.stephead{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:var(--mute)}
+.back{background:none;border:0;color:var(--mute);min-height:44px;padding:0 4px;cursor:pointer;font-size:13px}
+.back[hidden]{display:none}
+.step{animation:in .35s ease both}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.q{font-weight:700;font-size:20px;line-height:1.25;margin-top:2px}
+.opts{display:grid;gap:8px;margin-top:16px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.two .opt.full{grid-column:1/-1}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:10px 16px;text-align:left;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:15px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--lilac)}
+.opt[aria-pressed=true]{border-color:var(--magenta);background:rgba(255,0,116,.12)}
+.opt svg{flex:none;opacity:.5}
+.opt[aria-pressed=true] svg{opacity:1;color:var(--magenta)}
+.stephead b{font-weight:600;color:var(--ink)}
+.field{display:grid;gap:8px;margin-top:20px}
+.field label{font-size:13px;color:var(--mute)}
+.inp{width:100%;height:60px;padding:0 16px;font:700 26px var(--display);color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px}
+.inp.txt{font:500 16px var(--body);height:52px}
+.inp:focus{border-color:var(--lilac);outline:0}
+.err{color:var(--coral);font-size:13px;min-height:20px}
+.linkbtn{background:none;border:0;color:var(--lilac);text-decoration:underline;text-underline-offset:3px;min-height:44px;cursor:pointer;font-size:14px;padding:0;text-align:left}
+.note{font-size:12px;color:var(--mute);margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{min-height:48px;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer;font-size:14px}
+.chip[aria-pressed=true]{border-color:var(--magenta);background:rgba(255,0,116,.12)}
+
+/* resultado */
+#resultado[hidden]{display:none}
+.res-grid{display:grid;gap:28px;margin-top:20px}
+.res-canvas{height:300px}
+.nums{display:grid;grid-template-columns:1.35fr .8fr 1.05fr;gap:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0}
+.nums div{min-width:0}
+.nums strong{display:block;font:800 32px/1 var(--display);font-variant-numeric:tabular-nums}
+.nums span{display:block;margin-top:6px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.res-h{font-weight:800;font-size:22px;line-height:1.2;margin-top:20px}
+.flags{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:14px}
+.flags li{padding-left:16px;border-left:2px solid var(--purple)}
+.flags b{display:block;font-family:var(--display);font-size:15px}
+.flags span{font-size:14px;color:var(--mute)}
+.sim{margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.sim h3{font-weight:700;font-size:19px}
+.range{width:100%;margin:18px 0 6px;accent-color:var(--magenta);height:36px}
+.simout{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.simout strong{display:block;font:800 28px/1.05 var(--display);font-variant-numeric:tabular-nums}
+.simout span{font-size:12px;color:var(--mute)}
+.bars{display:grid;gap:8px;margin-top:14px}
+.bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--lilac);transition:width .35s}
+.bar.s i{background:var(--green)}
+.disc{font-size:12px;color:var(--mute);margin-top:12px;font-style:italic}
+
+.resh{font-size:23px!important;max-width:none!important;line-height:1.18;margin-top:0!important}
+.rx{margin:20px 0 0;display:grid;gap:0;border-top:1px solid var(--line)}
+.rx div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rx dt{color:var(--mute)}
+.rx dd{margin:0;font-weight:700;font-family:var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.rx dd.em{color:var(--coral)}
+.dg{margin-top:20px;padding:16px;border-radius:12px;background:rgba(138,80,230,.10);border:1px solid rgba(201,167,255,.3)}
+.dg small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--lilac)}
+.dg b{display:block;font:700 18px var(--display);margin-top:4px}
+.dg p{font-size:14px;color:var(--ink);margin-top:4px;opacity:.9}
+.concl{margin-top:28px;display:grid;gap:12px}
+.concl p{font:600 16px/1.35 var(--display)}
+/* mecanismo */
+.mech{display:grid;gap:24px;margin-top:24px}
+.mech-canvas{height:380px;max-width:420px;margin:0 auto;width:100%}
+.stages{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.stages button{display:grid;grid-template-columns:36px 1fr;gap:12px;width:100%;padding:14px 0;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;opacity:.5;transition:opacity .3s}
+.stages button.on{opacity:1}
+.stages .n{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--mute);font:700 14px var(--display)}
+.stages .on .n{background:var(--magenta);border-color:var(--magenta)}
+.stages b{display:block;font:700 17px var(--display)}
+.stages span{display:block;font-size:14px;color:var(--mute);margin-top:2px}
+.tagint{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:999px;border:1px solid var(--lilac);color:var(--lilac);font-size:11px;font-weight:600;letter-spacing:.04em}
+
+/* provas */
+.proofs{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:24px calc(var(--gutr) * -1) 0 calc(var(--gut) * -1);padding:0 var(--gutr) 12px var(--gut);scroll-padding-left:var(--gut);scrollbar-width:thin}
+.proof{flex:0 0 86%;max-width:360px;scroll-snap-align:start;display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(79,10,142,.28),rgba(255,255,255,.03) 60%)}
+.proof.own{border-color:rgba(255,0,116,.55);background:linear-gradient(160deg,rgba(255,0,116,.18),rgba(79,10,142,.3) 65%)}
+.proof .tag{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac)}
+.proof.own .tag{color:#FF7FB6}
+.proof h3{font-size:20px;font-weight:700;line-height:1.15}
+.pf{display:grid;gap:8px}
+.pf .big{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pf .lbl{font-size:11.5px;color:var(--mute)}
+.bars{display:grid;gap:6px;margin-top:2px}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--lilac)}
+.bar.f i{background:linear-gradient(90deg,var(--purple),var(--magenta))}
+.bl{display:flex;justify-content:space-between;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+.bl b{color:var(--ink);font-weight:600}
+.shot{position:relative;aspect-ratio:16/9;width:100%;border-radius:12px;border:1px solid var(--line);overflow:hidden;cursor:zoom-in;background:#000}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shot em{position:absolute;right:8px;bottom:8px;font-style:normal;font-size:11px;font-weight:600;padding:4px 9px;border-radius:99px;background:rgba(9,3,15,.78);border:1px solid var(--line)}
+.shot:focus-visible{outline:2px solid var(--lilac);outline-offset:2px}
+.mult{font-size:13px;color:var(--mute)}.mult b{color:var(--green);font-family:var(--display);font-size:16px}
+.kv{display:grid;gap:2px;font-size:13px;color:var(--mute)}
+.kv b{color:var(--ink);font-family:var(--display);font-size:17px;font-variant-numeric:tabular-nums}
+.foot-note{font-size:12px;color:var(--mute);margin-top:6px;max-width:60ch}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.94);display:flex;flex-direction:column}
+.lb[hidden]{display:none}
+.lb-top{display:flex;justify-content:flex-end;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 8px 12px}
+.lb-body{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;-webkit-overflow-scrolling:touch}
+.lb-body img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in}
+.lb-body.z img{max-width:none;max-height:none;width:220%;cursor:zoom-out}
+
+/* conversão */
+.apply{display:grid;gap:14px;margin-top:20px}
+.form{display:grid;gap:14px;margin-top:8px}
+.form[hidden]{display:none}
+.check{display:flex;gap:12px;font-size:13px;color:var(--mute);align-items:flex-start}
+.check input{width:22px;height:22px;flex:none;margin-top:1px;accent-color:var(--magenta)}
+.status{font-size:13px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.status[hidden]{display:none}
+.handle{margin-top:36px;font-size:12px;color:var(--mute);letter-spacing:.06em}
+
+.float{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:40;min-height:48px;padding:10px 18px;border-radius:999px;border:1px solid var(--magenta);background:rgba(16,5,28,.92);backdrop-filter:blur(8px);color:var(--ink);font:600 14px var(--body);cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.float[hidden]{display:none}
+
+@media (min-width:760px){
+  .sec{padding-block:96px}
+  .sec.first{padding-top:48px}
+  .h1{font-size:50px;max-width:16ch}
+  .h2{font-size:38px;max-width:20ch}
+  .hero-grid{grid-template-columns:1.05fr 1fr;align-items:center;gap:56px}
+  .hero-canvas{height:480px}
+  .cmp{grid-template-columns:1fr 1fr;gap:56px}
+  .diag{margin-top:28px}
+  #diagnostico{padding-top:72px;padding-bottom:72px}
+  #h-diag{font-size:32px}
+  .q{font-size:24px}
+  .resh{font-size:32px!important}
+  .res-grid{grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .res-canvas{height:420px}
+  .mech{grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .proofs{flex-wrap:wrap;overflow:visible;margin:32px 0 0;padding:0;gap:20px}
+  .proof{flex:1 1 calc(50% - 20px);min-width:300px;max-width:none;padding:20px}
+  .apply{grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}.step{animation:none}.btn,.opt,.bar i,.cmp-col,.stages button{transition:none}
+}
+</style>
+
+<main>
+<!-- 1 · PRIMEIRA TELA -->
+<section class="sec first" id="topo" aria-labelledby="h-hero">
+ <div class="wrap hero-grid">
+  <div>
+   <div class="eyebrow">Sky Scale · ASM Experience</div>
+   <h1 class="h1" id="h-hero">Sua agência pode estar <span class="em">perdendo vendas</span> sem perceber.</h1>
+   <p class="lede">Descubra o que aconteceu com suas oportunidades comerciais nos últimos 90 dias.</p>
+  </div>
+  <div>
+   <canvas id="fHero" class="hero-canvas" role="img" aria-label="Animação de um funil de vendas: pontos entram pelo topo, alguns escapam pelas laterais em coral e outros chegam ao fim em verde"></canvas>
+   <div class="legend"><span><i style="background:var(--lilac)"></i>oportunidade entra</span><span><i style="background:var(--coral)"></i>escapa</span><span><i style="background:var(--green)"></i>vira venda</span></div>
+   <div class="hero-ask" style="margin-top:14px">
+    <p>Onde estão os vazamentos da sua agência?</p>
+    <button class="btn" id="goDiag" type="button">Descobrir agora <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 2 · INDICAÇÃO x AQUISIÇÃO -->
+<section class="sec" id="comparacao" aria-labelledby="h-cmp">
+ <div class="wrap">
+  <div class="eyebrow">Duas formas de aquisição</div>
+  <h2 class="h2" id="h-cmp">De onde vêm seus próximos clientes?</h2>
+  <p class="lede">Toque em um dos modelos para destacar como ele funciona. Ilustração conceitual, sem dados reais.</p>
+  <div class="cmp" id="cmp">
+   <div class="cmp-col a" id="colA">
+    <button class="tab" type="button" data-f="a" aria-pressed="false">INDICAÇÕES <small>toque para destacar</small></button>
+    <canvas id="fA" class="cmp-canvas" role="img" aria-label="Funil alimentado de forma irregular: entradas ocasionais seguidas de longos intervalos sem movimento"></canvas>
+    <div class="time"><svg viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="38" x2="300" y2="38" stroke="rgba(255,255,255,.2)"/><g fill="#C9A7FF"><rect x="14" y="14" width="6" height="24"/><rect x="26" y="26" width="6" height="12"/><rect x="96" y="22" width="6" height="16"/><rect x="104" y="30" width="6" height="8"/><rect x="198" y="8" width="6" height="30"/><rect x="262" y="28" width="6" height="10"/></g></svg><span>Entradas ao longo de 90 dias: irregulares</span></div>
+    <p class="cmp-text">Você depende de alguém lembrar da sua agência.</p>
+    <p class="note">Indicações podem ser excelentes. O volume é que fica menos controlável.</p>
+   </div>
+   <div class="cmp-col b" id="colB">
+    <button class="tab" type="button" data-f="b" aria-pressed="false">AQUISIÇÃO ESTRUTURADA <small>toque para destacar</small></button>
+    <canvas id="fB" class="cmp-canvas" role="img" aria-label="Funil com cinco etapas: anúncio, formulário, contato, reunião e venda. Entradas distribuídas, e ainda assim alguns pontos escapam"></canvas>
+    <div class="time"><svg viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="38" x2="300" y2="38" stroke="rgba(255,255,255,.2)"/><g fill="#C9A7FF"><rect x="10" y="22" width="6" height="16"/><rect x="40" y="20" width="6" height="18"/><rect x="70" y="24" width="6" height="14"/><rect x="100" y="20" width="6" height="18"/><rect x="130" y="23" width="6" height="15"/><rect x="160" y="19" width="6" height="19"/><rect x="190" y="22" width="6" height="16"/><rect x="220" y="20" width="6" height="18"/><rect x="250" y="23" width="6" height="15"/><rect x="280" y="21" width="6" height="17"/></g></svg><span>Entradas ao longo de 90 dias: distribuídas</span></div>
+    <p class="cmp-text">Mais controle sobre a geração de oportunidades, com acompanhamento do funil.</p>
+    <p class="note">Mesmo aqui, algumas oportunidades escapam. Aquisição, qualificação e processo comercial precisam andar juntos.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 3 · DIAGNÓSTICO -->
+<section class="sec" id="diagnostico" aria-labelledby="h-diag">
+ <div class="wrap">
+  <div class="eyebrow">Diagnóstico de 90 dias</div>
+  <h2 class="h2" id="h-diag">Vamos olhar para os últimos 90 dias da sua agência?</h2>
+  <div class="diag">
+   <div>
+    <div class="prog" id="prog" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="stephead"><span><b id="stepLabel">Pergunta 1 de 5</b> · <span id="stepPct">20%</span></span><button class="back" id="backBtn" type="button" hidden>← Voltar</button></div>
+   </div>
+   <div id="stepBox" aria-live="polite"></div>
+  </div>
+ </div>
+</section>
+
+<!-- 4 · RESULTADO -->
+<section class="sec" id="resultado" aria-labelledby="h-res" hidden>
+ <div class="wrap">
+  <div class="eyebrow">Seu raio-x · últimos 90 dias</div>
+  <div class="res-grid">
+   <div>
+    <canvas id="fRes" class="res-canvas" role="img" aria-label="Funil ilustrativo com a proporção estimada de oportunidades que viraram venda e das que não viraram"></canvas>
+    <div class="legend"><span><i style="background:var(--coral)"></i>não viraram venda</span><span><i style="background:var(--green)"></i>viraram venda</span><button class="linkbtn" id="replay" type="button" style="min-height:32px">↻ ver de novo</button></div>
+    <p class="note" id="illus"></p>
+   </div>
+   <div>
+    <h2 class="h2 resh" id="h-res"></h2>
+    <p class="lede" id="resSub" style="margin-top:10px"></p>
+    <dl class="rx" id="rx"></dl>
+    <p class="note" id="rxNote"></p>
+    <div class="dg" id="dg"></div>
+    <h3 id="ptsH" style="font-size:16px;font-weight:700;margin-top:22px">Outros pontos para investigar</h3>
+    <ul class="flags" id="flags"></ul>
+    <div class="sim" id="sim">
+     <h3>E se sua taxa de conversão melhorasse?</h3>
+     <input class="range" id="rng" type="range" min="0" max="10" step="1" value="0" aria-label="Aumento da taxa de conversão em pontos percentuais">
+     <div class="simout">
+      <div><span>Conversão simulada</span><strong id="simRate">0%</strong></div>
+      <div><span>Vendas adicionais</span><strong id="simExtra" class="ok">—</strong></div>
+     </div>
+     <p class="disc">Simulação matemática sobre faixas, não previsão nem garantia de resultado.</p>
+    </div>
+    <div class="concl">
+     <p id="concl"></p>
+     <button class="btn" id="resCta" type="button">Quero analisar meu funil</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 5 · MECANISMO -->
+<section class="sec" id="mecanismo" aria-labelledby="h-mech">
+ <div class="wrap">
+  <div class="eyebrow">O mecanismo Sky Scale</div>
+  <h2 class="h2" id="h-mech">O que acontece antes e depois do lead importa.</h2>
+  <p class="lede">Cada etapa tem uma abertura possível. Medir onde as oportunidades param mostra onde olhar primeiro.</p>
+  <div class="mech">
+   <canvas id="fMech" class="mech-canvas" role="img" aria-label="Funil de cinco etapas em que as aberturas vão sendo reparadas conforme as etapas avançam"></canvas>
+   <div>
+    <ol class="stages" id="stages">
+     <li><button type="button" data-s="1"><span class="n">1</span><span><b>Campanha e anúncios</b><span>Atraem quem tem perfil para comprar, não só volume.</span></span></button></li>
+     <li><button type="button" data-s="2"><span class="n">2</span><span><b>Formulário de qualificação</b><span>Mostra quais contatos têm perfil comercial e a qualidade do que a campanha gera.</span><em class="tagint" style="font-style:normal">Campanha + formulário integrados</em></span></button></li>
+     <li><button type="button" data-s="3"><span class="n">3</span><span><b>Pré-vendas</b><span>Primeiro contato organizado antes da reunião.</span></span></button></li>
+     <li><button type="button" data-s="4"><span class="n">4</span><span><b>Comparecimento</b><span>Confirmação para a reunião realmente acontecer.</span></span></button></li>
+     <li><button type="button" data-s="5"><span class="n">5</span><span><b>Conversão</b><span>Reunião comercial e acompanhamento até a decisão.</span></span></button></li>
+    </ol>
+    <p class="note" style="margin-top:14px">Reparar uma abertura é acompanhar e ajustar a etapa. Instalar uma automação ou investir em anúncios, sozinho, não corrige o funil.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 6 · PROVAS -->
+<section class="sec" id="provas" aria-labelledby="h-prov">
+ <div class="wrap">
+  <div class="eyebrow">Evidências reais</div>
+  <h2 class="h2" id="h-prov">Quatro provas, direto da operação.</h2>
+  <div class="proofs" id="proofs"></div>
+  <p class="foot-note">Investimento em mídia não é o custo total do serviço, e faturamento contratado não é lucro. Valores informados pela Sky Scale; os da nossa operação são aproximados. O multiplicador é só faturamento dividido pelo investimento em mídia.</p>
+ </div>
+</section>
+
+<!-- 7 · CONVERSÃO -->
+<section class="sec" id="aplicar" aria-labelledby="h-apply">
+ <div class="wrap">
+  <div class="apply">
+   <div>
+    <div class="eyebrow">Diagnóstico estratégico</div>
+    <h2 class="h2" id="h-apply">Quer descobrir como melhorar o funil da sua agência?</h2>
+    <p class="lede">A Sky Scale está disponibilizando diagnósticos estratégicos individuais para empresas de turismo que querem organizar sua aquisição e aumentar a eficiência comercial.</p>
+   </div>
+   <div>
+    <button class="btn" id="applyBtn" type="button">Quero aplicar para um diagnóstico gratuito</button>
+    <form class="form" id="form" hidden novalidate>
+     <div class="field" style="margin-top:12px"><label for="fNome">Nome</label><input class="inp txt" id="fNome" autocomplete="name" required><div class="err" data-e="fNome"></div></div>
+     <div class="field" style="margin-top:0"><label for="fZap">WhatsApp</label><input class="inp txt" id="fZap" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required><div class="err" data-e="fZap"></div></div>
+     <div class="field" style="margin-top:0"><label for="fMail">E-mail</label><input class="inp txt" id="fMail" type="email" autocomplete="email" required><div class="err" data-e="fMail"></div></div>
+     <div class="field" style="margin-top:0"><label for="fAg">Nome da agência</label><input class="inp txt" id="fAg" autocomplete="organization" required><div class="err" data-e="fAg"></div></div>
+     <label class="check"><input type="checkbox" id="fLgpd"><span>Autorizo a Sky Scale a usar meus dados para entrar em contato sobre o diagnóstico, conforme a LGPD.</span></label>
+     <div class="err" data-e="fLgpd"></div>
+     <button class="btn" type="submit">Enviar aplicação</button>
+    </form>
+    <div class="status" id="status" hidden role="status"></div>
+   </div>
+  </div>
+  <p class="handle">@skyscalegrowth</p>
+ </div>
+</section>
+</main>
+
+<button class="float" id="floatRes" type="button" hidden>Ver meu resultado ↑</button>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+ <div class="lb-top"><button class="btn ghost sm" id="lbClose" type="button">Fechar ✕</button></div>
+ <div class="lb-body" id="lbBody"><img id="lbImg" alt=""></div>
+</div>
+
+<script>
+/* ============ CONFIGURAÇÃO ============ */
+var GHL_ID = "2apdDikSdlSLaPZTJUcP";        // formulário GHL "ASM EXPERIENCE - LOBÃO" (só carrega no clique)
+var APPLICATION_URL = "INSERIR_URL_AQUI";   // não usado: o botão abre o formulário GHL
+var SUBMIT_ENDPOINT = null;                 // integração de backend (não configurada)
+var UTM = {utm_source:"asm-experience", utm_medium:"qrcode", utm_campaign:"vazamento-invisivel"};
+// Provas: inv/fat numéricos (para as barras) + textos exibidos. img = print real.
+var PROOFS = [
+  {t:"Lucas Martins", tag:"Cliente Sky Scale", inv:5919.95, fat:41400, invT:"R$ 5.919,95", fatT:"R$ 41.400,00", img:"img/prova-lucas.webp", cap:"Ver prints"},
+  {t:"Eric Rebelo", tag:"Cliente Sky Scale", inv:5772.03, fat:150804, invT:"R$ 5.772,03", fatT:"R$ 150.804,00", img:"img/prova-eric.webp", cap:"Ver prints"},
+  {t:"Lary Dilua", tag:"Cliente Sky Scale", inv:5659.25, fat:68000, invT:"R$ 5.659,25", fatT:"R$ 68.000,00", img:"img/prova-lary.webp", cap:"Ver prints"},
+  {t:"Nossa própria operação", tag:"Sky Scale", own:1, inv:75000, fat:1500000, invT:"≈ R$ 75 mil", fatT:"≈ R$ 1,5 milhão", img:null}
+];
+
+var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function $(s,r){return (r||document).querySelector(s)}
+function fmt(n,d){return Number(n).toLocaleString('pt-BR',{maximumFractionDigits:d==null?0:d})}
+
+/* ============ FUNIL (canvas) ============ */
+function Funnel(cv,o){
+  this.cv=cv; this.ctx=cv.getContext('2d');
+  this.o=Object.assign({cxF:.5,topF:.42,neckF:.075,leaks:[],spawn:'steady',rate:.34,speed:.2,queue:null,qInt:.2,ticks:null,tickText:false,sink:true},o);
+  this.ps=[]; this.acc=0; this.cyc=0; this.fired=[]; this.qi=0; this.done=false; this.time=0; this.raf=0; this.last=0; this.active=-1;
+  var self=this;
+  this.resize();
+  if('ResizeObserver' in window){new ResizeObserver(function(){self.resize();if(!self.raf)self.draw();}).observe(cv);}
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?self.start():self.stop();});},{threshold:.05}).observe(cv);
+  }else{this.start();}
+}
+Funnel.prototype.resize=function(){
+  var r=this.cv.getBoundingClientRect(), d=Math.min(window.devicePixelRatio||1,2);
+  this.W=Math.max(r.width,1); this.H=Math.max(r.height,1);
+  this.cv.width=Math.round(this.W*d); this.cv.height=Math.round(this.H*d);
+  this.ctx.setTransform(d,0,0,d,0,0);
+};
+Funnel.prototype.cx=function(){return this.W*this.o.cxF};
+Funnel.prototype.hw=function(t){
+  var top=this.W*this.o.topF, neck=this.W*this.o.neckF, k=.72;
+  if(t>=k)return neck; var s=t/k; s=s*s*(3-2*s); return neck+(top-neck)*(1-s);
+};
+Funnel.prototype.y=function(t){return this.H*.06+this.H*.88*t};
+Funnel.prototype.pickFate=function(){
+  var r=Math.random(),a=0,L=this.o.leaks;
+  for(var i=0;i<L.length;i++){ if(L[i].closed)continue; a+=L[i].p; if(r<a)return i; }
+  return -1;
+};
+Funnel.prototype.spawnOne=function(fate){
+  if(fate===undefined)fate=this.pickFate();
+  this.ps.push({t:0,u:Math.random()*1.3-.65,v:this.o.speed*(.8+Math.random()*.45),fate:fate,ph:0,a:1,wob:Math.random()*6.28,x:0,y:0,vx:0,vy:0,side:0});
+  this.stats&&this.stats.in++;
+};
+Funnel.prototype.reset=function(){this.ps=[];this.qi=0;this.done=false;this.acc=0;this.cyc=0;this.fired=[];};
+Funnel.prototype.step=function(dt){
+  var o=this.o,self=this; this.time+=dt;
+  if(o.queue){
+    if(this.qi<o.queue.length){this.acc+=dt;while(this.acc>=o.qInt&&this.qi<o.queue.length){this.acc-=o.qInt;this.spawnOne(o.queue[this.qi++]);}}
+    else if(!this.ps.length&&!this.done){this.done=true;o.onDone&&o.onDone();}
+  }else if(o.spawn==='burst'){
+    this.cyc+=dt; var ev=[.2,.38,.55,4.6,6.2,6.4];
+    ev.forEach(function(e,i){if(self.cyc>=e&&!self.fired[i]){self.fired[i]=1;self.spawnOne();}});
+    if(this.cyc>=9){this.cyc=0;this.fired=[];}
+  }else{
+    this.acc+=dt; var gap=o.rate*(.8+Math.random()*.4); if(this.acc>=gap){this.acc=0;this.spawnOne();}
+  }
+  var cx=this.cx(), out=[];
+  this.ps.forEach(function(p){
+    if(p.ph===0){
+      p.t+=p.v*dt;
+      var L=p.fate>=0?o.leaks[p.fate]:null;
+      if(L&&p.t>=L.t){p.ph=1;p.side=L.side;}
+      else if(p.t>=1){p.ph=3;o.onConvert&&o.onConvert();}
+      if(p.ph===0){p.x=cx+(p.u+.1*Math.sin(self.time*2+p.wob))*self.hw(p.t)*.8;p.y=self.y(p.t);}
+    }
+    if(p.ph===1){
+      p.u+=p.side*dt*3.4; p.x=cx+p.u*self.hw(p.t)*.8; p.y=self.y(p.t)+dt*10;
+      if(Math.abs(p.u)>=1.25){p.ph=2;p.vx=p.side*(30+Math.random()*30);p.vy=25;o.onLeak&&o.onLeak();}
+    }else if(p.ph===2){
+      p.vy+=300*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.a-=dt*.65;
+    }else if(p.ph===3){
+      p.y+=dt*30;p.a-=dt*1.5;
+    }
+    if(p.a>0&&p.y<self.H+10)out.push(p);
+  });
+  this.ps=out;
+};
+Funnel.prototype.wall=function(side,t0,t1){
+  var c=this.ctx,cx=this.cx(),n=Math.max(4,Math.ceil((t1-t0)*40));
+  c.beginPath();
+  for(var i=0;i<=n;i++){var t=t0+(t1-t0)*i/n,x=cx+side*this.hw(t),y=this.y(t);i?c.lineTo(x,y):c.moveTo(x,y);}
+  c.stroke();
+};
+Funnel.prototype.draw=function(){
+  var c=this.ctx,W=this.W,H=this.H,cx=this.cx(),self=this,o=this.o;
+  c.clearRect(0,0,W,H);
+  // interior
+  c.beginPath();
+  for(var i=0;i<=40;i++){var t=i/40;c.lineTo(cx-this.hw(t),this.y(t));}
+  for(i=40;i>=0;i--){t=i/40;c.lineTo(cx+this.hw(t),this.y(t));}
+  c.closePath();
+  var g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'rgba(138,80,230,.14)');g.addColorStop(1,'rgba(63,214,160,.08)');
+  c.fillStyle=g;c.fill();
+  // paredes com aberturas
+  c.lineWidth=2;c.lineCap='round';
+  [-1,1].forEach(function(side){
+    var gaps=o.leaks.filter(function(l){return l.side===side&&!l.closed}).map(function(l){return [l.t-.035,l.t+.035]}).sort(function(a,b){return a[0]-b[0]});
+    var cur=0; c.strokeStyle='rgba(201,167,255,.75)';
+    gaps.forEach(function(gp){if(gp[0]>cur)self.wall(side,cur,gp[0]);cur=gp[1];});
+    if(cur<1)self.wall(side,cur,1);
+  });
+  // aberturas e remendos
+  o.leaks.forEach(function(l){
+    var y=self.y(l.t),x=cx+l.side*self.hw(l.t);
+    if(l.closed){c.strokeStyle='#3FD6A0';c.lineWidth=3;c.beginPath();c.moveTo(x-l.side*0,y-9);c.lineTo(x,y+9);c.stroke();c.lineWidth=2;}
+    else{c.fillStyle='#FF6B5E';[-1,1].forEach(function(s){c.beginPath();c.arc(x,y+s*self.H*.88*.035,2.4,0,6.3);c.fill();});}
+  });
+  // etapas
+  if(o.ticks){
+    o.ticks.forEach(function(k,i){
+      var y=self.y(k.t),x=cx-self.hw(k.t);
+      if(o.tickText){
+        c.fillStyle='rgba(245,239,251,.78)';c.font='600 10px Sora,system-ui,sans-serif';c.textBaseline='middle';c.textAlign='left';
+        c.fillText(k.label,6,y);
+        c.strokeStyle='rgba(255,255,255,.18)';c.lineWidth=1;c.setLineDash([2,4]);
+        var tw=c.measureText(k.label).width;c.beginPath();c.moveTo(tw+12,y);c.lineTo(x-4,y);c.stroke();c.setLineDash([]);
+      }else{
+        var on=(i+1===self.active);
+        c.beginPath();c.arc(x-18,y,11,0,6.3);c.fillStyle=on?'#FF0074':'#10051C';c.fill();
+        c.strokeStyle=on?'#FF0074':'rgba(201,167,255,.7)';c.lineWidth=1.5;c.stroke();
+        c.fillStyle='#fff';c.font='700 11px Outfit,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(String(i+1),x-18,y+.5);
+      }
+    });
+  }
+  // partículas
+  this.ps.forEach(function(p){
+    var col=p.ph===1||p.ph===2?'255,107,94':(p.ph===3||(p.fate<0&&p.t>.86)?'63,214,160':'201,167,255');
+    c.fillStyle='rgba('+col+','+(.22*Math.max(p.a,0))+')';c.beginPath();c.arc(p.x,p.y,7,0,6.3);c.fill();
+    c.fillStyle='rgba('+col+','+Math.max(p.a,0)+')';c.beginPath();c.arc(p.x,p.y,3.4,0,6.3);c.fill();
+  });
+  if(o.sink){c.fillStyle='rgba(63,214,160,.9)';c.font='700 10px Sora,system-ui,sans-serif';c.textAlign='center';c.textBaseline='alphabetic';c.fillText('VENDAS',cx,H-2);}
+};
+Funnel.prototype.frame=function(ts){
+  if(!this.raf)return;
+  var dt=Math.min((ts-this.last)/1000||0,.05);this.last=ts;
+  this.step(dt);this.draw();
+  this.raf=requestAnimationFrame(this.frame.bind(this));
+};
+Funnel.prototype.start=function(){
+  if(reduce){ if(!this.pre){this.pre=1;for(var i=0;i<260&&!this.done;i++)this.step(.05);} this.draw(); return; }
+  if(this.raf)return;this.last=performance.now();this.raf=requestAnimationFrame(this.frame.bind(this));
+};
+Funnel.prototype.stop=function(){if(this.raf){cancelAnimationFrame(this.raf);this.raf=0;}};
+
+/* ---- instâncias ---- */
+var heroF=new Funnel($('#fHero'),{topF:.4,leaks:[{t:.24,side:-1,p:.22},{t:.42,side:1,p:.22},{t:.6,side:-1,p:.2}],rate:.3,speed:.19});
+var fA=new Funnel($('#fA'),{cxF:.5,topF:.16,neckF:.06,spawn:'burst',speed:.17,leaks:[{t:.5,side:1,p:.3}]});
+var tickB=[{t:.1,label:'ANÚNCIO'},{t:.3,label:'FORMULÁRIO'},{t:.5,label:'CONTATO'},{t:.7,label:'REUNIÃO'},{t:.92,label:'VENDA'}];
+var fB=new Funnel($('#fB'),{cxF:.66,topF:.26,neckF:.06,rate:.42,speed:.17,ticks:tickB,tickText:true,
+  leaks:[{t:.2,side:-1,p:.12},{t:.4,side:1,p:.12},{t:.6,side:-1,p:.12},{t:.8,side:1,p:.1}]});
+
+/* comparação: toque para destacar */
+(function(){
+  var cmp=$('#cmp'),cur='';
+  [].forEach.call(document.querySelectorAll('.tab'),function(b){
+    b.addEventListener('click',function(){
+      var f=b.getAttribute('data-f'); cur=(cur===f)?'':f;
+      cmp.className='cmp'+(cur?' focus-'+cur:'');
+      $('#colA').classList.toggle('on',cur==='a');$('#colB').classList.toggle('on',cur==='b');
+      [].forEach.call(document.querySelectorAll('.tab'),function(x){x.setAttribute('aria-pressed',String(x===b&&!!cur));});
+    });
+  });
+})();
+
+/* ============ DIAGNÓSTICO ============ */
+var CHEV='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+var Q={
+ q1:{t:'De onde vêm seus clientes?',o:[['indicacao','Indicações'],['organico','Instagram / Orgânico'],['pago','Tráfego pago'],['mix','Um pouco de cada']]},
+ q2:{t:'Quantos pedidos de orçamento sua agência recebeu nos últimos 90 dias?',two:1,o:[['none','Nenhum'],['r1','1 a 20'],['r2','21 a 50'],['r3','51 a 100'],['r4','101 a 200'],['r5','Mais de 200'],['unk','Não faço ideia']]},
+ q3:{t:'A cada 10 orçamentos, quantos viram vendas?',two:1,o:[['zero','Nenhum'],['low','1 a 2'],['mid','3 a 4'],['high','5 ou mais'],['unk','Não faço ideia']]},
+ q4:{t:'O que acontece com quem pede orçamento e não compra?',o:[['crm','Temos um processo de follow-up'],['wa','Acompanhamos pelo WhatsApp'],['cada','Cada vendedor faz de um jeito'],['none','Normalmente não acompanhamos']]},
+ q5:{t:'Qual seu maior desafio comercial?',o:[['more','Conseguir mais interessados'],['qualif','Atrair clientes qualificados'],['conv','Converter mais orçamentos'],['org','Organizar o comercial']]}
+};
+var S={},cur='q1',lock=false,resultReady=false;
+var box=$('#stepBox');
+function seq(){return S.q2==='none'?['q1','q2','q4','q5']:['q1','q2','q3','q4','q5'];}
+function save(done){try{sessionStorage.setItem('vi_diag',JSON.stringify({S:S,cur:cur,done:!!done}));}catch(e){}}
+
+function render(){
+  var sq=seq(),idx=sq.indexOf(cur),n=sq.length,q=Q[cur];
+  $('#stepLabel').textContent='Pergunta '+(idx+1)+' de '+n;
+  $('#stepPct').textContent=Math.round((idx+1)/n*100)+'%';
+  $('#backBtn').hidden=idx===0;
+  var pr=$('#prog');pr.style.gridTemplateColumns='repeat('+n+',1fr)';
+  pr.innerHTML=sq.map(function(k,i){return '<i class="'+(i<idx?'d':(i===idx?'c':''))+'"></i>';}).join('');
+  var h='<div class="step"><h3 class="q">'+q.t+'</h3><div class="opts'+(q.two?' two':'')+'" role="group" aria-label="'+q.t+'">';
+  q.o.forEach(function(o,i){
+    var full=q.two&&(o[0]==='unk'||(q.o.length%2===1&&i===q.o.length-1));
+    h+='<button type="button" class="opt'+(full?' full':'')+'" data-v="'+o[0]+'" aria-pressed="'+(S[cur]===o[0])+'"><span>'+o[1]+'</span>'+CHEV+'</button>';
+  });
+  box.innerHTML=h+'</div></div>';
+}
+function advance(){
+  var sq=seq(),idx=sq.indexOf(cur);
+  if(idx<sq.length-1){cur=sq[idx+1];save();render();}
+  else{save(true);finish(true);}
+  lock=false;
+}
+box.addEventListener('click',function(e){
+  var el=e.target.closest('.opt');if(!el||lock)return;
+  lock=true;
+  S[cur]=el.getAttribute('data-v');
+  if(cur==='q2'&&S.q2==='none')delete S.q3;
+  [].forEach.call(box.querySelectorAll('.opt'),function(b){b.setAttribute('aria-pressed',String(b===el));});
+  save();
+  setTimeout(advance,reduce?0:200);
+});
+$('#backBtn').addEventListener('click',function(){
+  var sq=seq(),idx=sq.indexOf(cur);if(idx>0){cur=sq[idx-1];save();render();}
+});
+$('#goDiag').addEventListener('click',function(){
+  $('#diagnostico').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+});
+
+/* ---- lógica do resultado (faixas, sem números exatos) ---- */
+var VOL={none:[0,0,'Nenhum'],r1:[1,20,'1 a 20'],r2:[21,50,'21 a 50'],r3:[51,100,'51 a 100'],r4:[101,200,'101 a 200'],r5:[201,Infinity,'Mais de 200']};
+var CONV={zero:[0,0,'0%',0],low:[.1,.2,'10% a 20%',.15],mid:[.3,.4,'30% a 40%',.35],high:[.5,1,'50% ou mais',.75]};
+var TXT={
+  A:['Dependência de indicações','Sua agência pode ter dificuldade para controlar a entrada de novas oportunidades.'],
+  B:['Conversão comercial','Vale investigar o que acontece entre o primeiro contato e o fechamento.'],
+  C:['Follow-up','Parte das oportunidades pode estar ficando sem acompanhamento estruturado.'],
+  D:['Visibilidade comercial','Antes de acelerar a aquisição, precisamos medir o que já acontece no seu funil.'],
+  E:['Sinais de organização','Sua operação demonstra sinais de organização. O próximo passo pode ser avaliar a capacidade de ampliar a aquisição sem perder eficiência.'],
+  G:['Volume de entrada','Você declarou boa conversão sobre um volume pequeno. O ponto a avaliar é como ampliar a entrada de oportunidades mantendo a qualidade.'],
+  F:['Mapa do funil','Com as faixas informadas, não aparece um gargalo evidente. Vale mapear em qual etapa as oportunidades param.'],
+  N:['Entrada de oportunidades','O primeiro desafio é criar uma entrada de novas oportunidades.']
+};
+function rangeText(lo,hi,unit){
+  unit=unit||'';
+  if(hi==null)return 'pelo menos '+fmt(lo)+unit;
+  if(lo<=0)return 'até '+fmt(hi)+unit;
+  if(lo===hi)return 'cerca de '+fmt(lo)+unit;
+  return fmt(lo)+' a '+fmt(hi)+unit;
+}
+function analyze(S){
+  var v=VOL[S.q2],c=CONV[S.q3],q1=S.q1,fu=S.q4,q5=S.q5,r={points:[]};
+  if(S.q2==='none'){
+    r.sc='none';r.main=TXT.N;
+    if(q1==='indicacao')r.points.push(TXT.A);
+    return r;
+  }
+  var big=['r3','r4','r5'].indexOf(S.q2)>-1, small=['r1','r2'].indexOf(S.q2)>-1, low=S.q1&&S.q2&&(S.q3==='zero'||S.q3==='low'), good=(S.q3==='mid'||S.q3==='high');
+  if(!v||!c){
+    r.sc='unk';r.vol=v||null;r.conv=c||null;r.main=TXT.D;
+    var u=comp(q5,{unk:1});if(u)r.points.push(u);
+    return r;
+  }
+  r.sc='data';r.vol=v;r.conv=c;
+  r.nc={lo:Math.ceil(v[0]*(1-c[1])),hi:(v[1]===Infinity?null:Math.floor(v[1]*(1-c[0])))};
+  var noFollow=(fu==='none'||fu==='cada'||(fu==='wa'&&low));
+  var cB=big&&low, cE=big&&good&&fu==='crm', cC=noFollow&&!cE;
+  var cA=q1==='indicacao'&&(q5==='more'||q5==='qualif'||v[1]<=20), cG=small&&good&&!cC;
+  var key=cB?'B':cC?'C':cA?'A':cE?'E':cG?'G':'F';
+  r.main=TXT[key];r.key=key;
+  var sec=[];
+  if(cB&&key!=='B')sec.push('B');if(cC&&key!=='C')sec.push('C');if(cA&&key!=='A')sec.push('A');
+  var cm=comp(q5,{key:key,B:cB,good:good,high:S.q3==='high'});
+  if(cm)r.points.push(cm);
+  sec.forEach(function(k){if(r.points.length<2)r.points.push(TXT[k]);});
+  return r;
+}
+function comp(q5,x){
+  var k=x.key;
+  if(q5==='more'){
+    if(k==='A'||k==='G')return null;
+    if(x.unk)return ['Mais interessados','Antes de ampliar a entrada, vale medir o que já acontece no seu funil.'];
+    return ['Mais interessados',x.B?'Antes de ampliar a entrada, vale entender por que os contatos atuais não fecham.':(x.good?'Com a conversão que você declarou, ampliar a entrada de forma controlada pode ser o próximo passo.':'Vale avaliar como ampliar a entrada de oportunidades de forma controlada.')];
+  }
+  if(q5==='qualif')return ['Clientes qualificados','Mais contatos não resolvem quando eles não têm perfil de compra. Vale revisar como os interessados são filtrados antes de chegar ao comercial.'];
+  if(q5==='conv'){
+    if(k==='B')return null;
+    if(x.unk)return ['Conversão','Para melhorar a conversão, o primeiro passo é medi-la etapa por etapa.'];
+    return ['Conversão',x.high?'Você declarou uma taxa alta. Vale entender o que sustenta esse resultado e onde ainda há perda.':'Vale investigar o que acontece entre o primeiro contato e o fechamento.'];
+  }
+  if(q5==='org'){ if(k==='C')return null; return ['Organização comercial','Vale investigar onde cada contato fica registrado e quem faz o próximo passo.']; }
+  return null;
+}
+
+/* ---- tela de resultado ---- */
+var resF=null,simBase=null;
+function finish(scroll){
+  resultReady=true;
+  var A=analyze(S);window.__last=A;
+  $('#resultado').hidden=false;
+  $('#stepLabel').textContent='Diagnóstico concluído';$('#stepPct').textContent='100%';
+  [].forEach.call($('#prog').children,function(el){el.className='d';});
+  $('#backBtn').hidden=true;
+  box.innerHTML='<div class="step"><h3 class="q">Pronto. Seu raio-x está logo abaixo.</h3><button class="linkbtn" id="redo" type="button" style="margin-top:8px">Refazer o diagnóstico</button></div>';
+  $('#redo').addEventListener('click',function(){S={};cur='q1';resultReady=false;lock=false;$('#resultado').hidden=true;$('#floatRes').hidden=true;save();render();});
+
+  var head=$('#h-res'),sub=$('#resSub'),rx=$('#rx'),rxn=$('#rxNote');
+  var rows='',illus='',mid=null,queue=[];
+  if(A.sc==='none'){
+    head.textContent='Nos últimos 90 dias, sua agência informou não ter recebido oportunidades comerciais.';
+    sub.textContent='';sub.style.display='none';rxn.textContent='';
+    illus='Sem oportunidades entrando, não há o que converter.';
+  }else if(A.sc==='unk'){
+    head.textContent='Sua agência pode estar tomando decisões sem visibilidade do funil comercial.';
+    sub.style.display='';sub.textContent='O primeiro passo é acompanhar três números: o volume de oportunidades, o andamento de cada negociação e a taxa de conversão.';
+    rows+='<div><dt>Pedidos de orçamento</dt><dd>'+(A.vol?A.vol[2]:'Não informado')+'</dd></div><div><dt>Conversão aproximada</dt><dd>'+(A.conv?A.conv[2]:'Não informada')+'</dd></div>';
+    rxn.textContent='Sem os dois números, não estimamos oportunidades não convertidas.';
+    illus='Ilustração sem números: o funil mostra o conceito, não a sua agência.';
+  }else{
+    var nc=A.nc,lo=nc.lo,hi=nc.hi;
+    var h1=(hi==null?'Pelo menos '+fmt(lo):(lo<=0?'Até '+fmt(hi):(lo===hi?'Cerca de '+fmt(lo):'Entre '+fmt(lo)+' e '+fmt(hi))));
+    head.innerHTML=h1+' oportunidades <span class="em">podem não ter virado vendas.</span>';
+    sub.style.display='';sub.textContent='Estimativa baseada nas faixas de volume e conversão informadas por você.';
+    rows+='<div><dt>Pedidos de orçamento</dt><dd>'+A.vol[2]+'</dd></div><div><dt>Conversão aproximada</dt><dd>'+A.conv[2]+'</dd></div><div><dt>Não convertidos</dt><dd class="em">'+rangeText(lo,hi).replace(/^./,function(m){return m.toUpperCase();})+'</dd></div>';
+    rxn.textContent='Nem toda oportunidade não convertida era uma venda recuperável. O próximo passo é descobrir onde elas pararam.';
+    illus='Ilustração baseada nas faixas informadas, não em números exatos.';
+    mid=A.conv[3];
+  }
+  rx.innerHTML=rows;rx.style.display=rows?'':'none';
+  $('#illus').textContent=illus;
+  $('#dg').innerHTML='<small>Hipótese principal</small><b>'+A.main[0]+'</b><p>'+A.main[1]+'</p>';
+  $('#flags').innerHTML=A.points.map(function(f){return '<li><b>'+f[0]+'</b><span>'+f[1]+'</span></li>';}).join('');
+  $('#ptsH').style.display=A.points.length?'':'none';
+  $('#concl').textContent=A.sc==='none'?'Vamos desenhar a entrada de oportunidades da sua agência?':'Um diagnóstico individual mostra em qual etapa estão os maiores vazamentos do seu funil.';
+
+  // simulador (apenas com faixas completas)
+  var sim=$('#sim');simBase=null;
+  if(A.sc==='data'){
+    var maxPP=Math.max(0,Math.min(15,Math.floor(100-A.conv[1]*100)));
+    if(maxPP>0){simBase=A;var rng=$('#rng');rng.max=maxPP;rng.value=0;simUpdate();}
+  }
+  sim.style.display=simBase?'':'none';
+
+  // funil
+  var N=40,leaks=[{t:.24,side:-1,p:0},{t:.42,side:1,p:0},{t:.6,side:-1,p:0}];
+  if(A.sc==='data'){
+    var cN=Math.round(N*mid);if(mid>0&&cN===0)cN=1;if(mid<1&&cN===N)cN=N-1;
+    for(var i=0;i<cN;i++)queue.push(-1);
+    for(i=0;i<N-cN;i++)queue.push(i%3);
+    for(i=queue.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=queue[i];queue[i]=queue[j];queue[j]=t;}
+  }
+  var o={topF:.4,leaks:leaks,speed:.2};
+  if(A.sc==='unk'){o.queue=null;o.spawn='steady';o.rate=.4;}
+  else{o.queue=queue;o.qInt=.11;}
+  if(!resF){resF=new Funnel($('#fRes'),{topF:.4,leaks:leaks,queue:o.queue,qInt:.11,speed:.2,rate:.4,spawn:'steady'});}
+  else{resF.o.queue=o.queue;resF.o.leaks=leaks;resF.o.qInt=.11;resF.o.rate=.4;resF.reset();if(reduce){resF.pre=0;resF.start();}}
+  if(scroll)setTimeout(function(){$('#resultado').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});},120);
+}
+function simUpdate(){
+  var A=simBase;if(!A)return;
+  var pp=+$('#rng').value,v=A.vol,c=A.conv;
+  $('#simRate').textContent=pp?(fmt(c[0]*100+pp)+'% a '+fmt(c[1]*100+pp)+'%'):'atual';
+  var lo=Math.floor(v[0]*pp/100),hi=v[1]===Infinity?null:Math.ceil(v[1]*pp/100);
+  $('#simExtra').textContent=pp?('+'+rangeText(lo,hi).replace('pelo menos ','≥ ')):'—';
+  $('#rng').setAttribute('aria-valuetext','+'+pp+' pontos percentuais');
+}
+$('#rng').addEventListener('input',simUpdate);
+$('#replay').addEventListener('click',function(){if(resF){resF.reset();if(reduce){resF.pre=0;}resF.start();}});
+$('#resCta').addEventListener('click',function(){if(window.openApply)window.openApply();});
+
+/* atalho flutuante para o resultado */
+window.addEventListener('scroll',function(){
+  if(!resultReady){$('#floatRes').hidden=true;return;}
+  var r=$('#resultado').getBoundingClientRect();
+  $('#floatRes').hidden=(r.top<innerHeight*.8&&r.bottom>innerHeight*.2);
+},{passive:true});
+$('#floatRes').addEventListener('click',function(){$('#resultado').scrollIntoView({behavior:reduce?'auto':'smooth'});});
+
+/* ============ MECANISMO ============ */
+var mechLeaks=[{t:.2,side:-1,p:.11},{t:.4,side:1,p:.11},{t:.6,side:-1,p:.11},{t:.8,side:1,p:.11}];
+var mechF=new Funnel($('#fMech'),{cxF:.58,topF:.3,neckF:.06,rate:.38,speed:.17,leaks:mechLeaks,sink:true,
+  ticks:[{t:.1},{t:.3},{t:.5},{t:.7},{t:.92}]});
+function setStage(k){
+  mechF.active=k;mechLeaks.forEach(function(l,i){l.closed=i<k-1;});
+  [].forEach.call(document.querySelectorAll('#stages button'),function(b){b.classList.toggle('on',+b.getAttribute('data-s')<=k&&+b.getAttribute('data-s')===k);b.setAttribute('aria-current',String(+b.getAttribute('data-s')===k));});
+  if(!mechF.raf)mechF.draw();
+}
+setStage(1);
+var mechTimer=0,mechAuto=true;
+[].forEach.call(document.querySelectorAll('#stages button'),function(b){b.addEventListener('click',function(){mechAuto=false;clearInterval(mechTimer);setStage(+b.getAttribute('data-s'));});});
+if('IntersectionObserver' in window&&!reduce){
+  new IntersectionObserver(function(es){
+    if(es[0].isIntersecting&&mechAuto&&!mechTimer){var k=1;setStage(1);mechTimer=setInterval(function(){k++;if(k>5||!mechAuto){clearInterval(mechTimer);return;}setStage(k);},1900);}
+  },{threshold:.45}).observe($('#fMech'));
+}else{setStage(5);}
+
+/* ============ PROVAS ============ */
+(function(){
+  var h='';
+  PROOFS.forEach(function(p,i){
+    var pc=Math.max(2,Math.round(p.inv/p.fat*100)),m=p.fat/p.inv;
+    var mt=m>=10?Math.round(m):(Math.round(m*10)/10);
+    h+='<article class="proof'+(p.own?' own':'')+'"><div class="tag">'+p.tag+'</div><h3>'+p.t+'</h3>'+
+      '<div class="pf"><div class="lbl">Faturamento informado</div><div class="big">'+p.fatT+'</div></div>'+
+      '<div class="bars"><div class="bl"><span>Investimento em mídia</span><b>'+p.invT+'</b></div><div class="bar"><i style="width:'+pc+'%"></i></div>'+
+      '<div class="bl"><span>Faturamento</span><b>'+p.fatT+'</b></div><div class="bar f"><i style="width:100%"></i></div></div>'+
+      '<div class="mult"><b>≈ '+String(mt).replace('.',',')+'x</b> faturado sobre o investido</div>';
+    if(p.img)h+='<div class="shot" role="button" tabindex="0" data-i="'+i+'" aria-label="Ampliar prints de '+p.t+'"><img src="'+p.img+'" alt="Prints reais: '+p.t+'" loading="lazy"><em>'+p.cap+' ⤢</em></div>';
+    h+='</article>';
+  });
+  $('#proofs').innerHTML=h;
+  var lb=$('#lb'),lbi=$('#lbImg'),lbb=$('#lbBody');
+  $('#proofs').addEventListener('click',function(e){
+    var s=e.target.closest('.shot');if(!s)return;
+    var p=PROOFS[+s.getAttribute('data-i')];lbi.src=p.img;lbi.alt=p.t;lbb.className='lb-body';lb.hidden=false;$('#lbClose').focus();
+  });
+  $('#proofs').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var s=e.target.closest('.shot');if(s){e.preventDefault();s.click();}}});
+  lbi.addEventListener('click',function(){lbb.classList.toggle('z');});
+  function close(){lb.hidden=true;}
+  $('#lbClose').addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)close();});
+})();
+
+/* ============ APLICAÇÃO ============ */
+(function(){
+  var btn=$('#applyBtn'),form=$('#form'),st=$('#status');
+  function withUtm(u){
+    var q=[];for(var k in UTM)q.push(k+'='+encodeURIComponent(UTM[k]));
+    try{var s=new URLSearchParams(location.search);['utm_content','utm_term'].forEach(function(k){if(s.get(k))q.push(k+'='+encodeURIComponent(s.get(k)));});}catch(e){}
+    return u+(u.indexOf('?')>-1?'&':'?')+q.join('&');
+  }
+  // O formulário do GHL só é criado quando a pessoa toca em um botão de aplicação.
+  window.openApply=function(){
+    var old=document.getElementById('popup-'+GHL_ID);if(old)old.remove();
+    document.querySelectorAll('script[data-ghl-embed]').forEach(function(x){x.remove();});
+    var f=document.createElement('iframe');
+    f.src='https://api.leadconnectorhq.com/widget/form/'+GHL_ID;
+    f.style.cssText='display:none;width:100%;height:100%;border:none;border-radius:8px';
+    f.id='popup-'+GHL_ID;
+    var at={'data-layout':"{'id':'POPUP','minimizedTitle':'Contact us','buttonColor':'#101828','buttonType':'text','buttonSize':'medium','buttonIcon':'chat','cornerRadius':{'tl':8,'tr':8,'bl':8,'br':8},'fontSize':16}",
+      'data-trigger-type':'alwaysShow','data-trigger-value':'','data-activation-type':'alwaysActivated','data-activation-value':'',
+      'data-deactivation-type':'neverDeactivate','data-deactivation-value':'','data-form-name':'ASM EXPERIENCE - LOBÃO','data-height':'804',
+      'data-layout-iframe-id':'popup-'+GHL_ID,'data-form-id':GHL_ID,'data-cookie-consent':'true','data-cookie-consent-provider':'auto'};
+    for(var k in at)f.setAttribute(k,at[k]);
+    f.title='ASM EXPERIENCE - LOBÃO';
+    document.body.appendChild(f);
+    var sc=document.createElement('script');sc.src='https://link.msgsndr.com/js/form_embed.js';sc.setAttribute('data-ghl-embed','1');
+    document.body.appendChild(sc);
+  };
+  btn.addEventListener('click',window.openApply);
+  form.addEventListener('submit',function(e){
+    e.preventDefault();var ok=true;
+    function bad(id,m){var el=form.querySelector('[data-e="'+id+'"]');el.textContent=m;ok=false;}
+    form.querySelectorAll('.err').forEach(function(x){x.textContent='';});
+    if($('#fNome').value.trim().length<3)bad('fNome','Informe seu nome.');
+    if(($('#fZap').value.replace(/\D/g,'')).length<10)bad('fZap','Informe o WhatsApp com DDD.');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('#fMail').value.trim()))bad('fMail','Informe um e-mail válido.');
+    if($('#fAg').value.trim().length<2)bad('fAg','Informe o nome da agência.');
+    if(!$('#fLgpd').checked)bad('fLgpd','É necessário autorizar para continuar.');
+    if(!ok)return;
+    st.hidden=false;
+    if(SUBMIT_ENDPOINT){st.textContent='Enviando...';}
+    else{st.textContent='Dados validados, mas nenhuma integração está configurada. Nada foi enviado. Configure APPLICATION_URL ou SUBMIT_ENDPOINT para ativar a aplicação.';}
+  });
+})();
+
+/* ============ INÍCIO ============ */
+(function(){
+  try{
+    var sv=JSON.parse(sessionStorage.getItem('vi_diag')||'null');
+    if(sv&&sv.S&&typeof sv.S==='object'){S=sv.S;if(Q[sv.cur])cur=sv.cur;if(sv.done&&S.q5){finish(false);return;}}
+  }catch(e){}
+  render();
+})();
+</script>
